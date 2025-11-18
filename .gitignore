@@ -1,0 +1,17 @@
+# Flutter/Dart/Pub
+.dart_tool/
+.packages
+.pub-cache/
+build/
+.idea/
+.vscode/
+*.iml
+*.lock
+*.log
+*.swp
+
+# Firebase local files
+firebase_options.dart
+
+# MacOS/Linux/Windows
+.DS_Store

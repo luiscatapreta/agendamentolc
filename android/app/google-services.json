@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "545818776746",
+    "project_id": "agendamentos-web-87546",
+    "storage_bucket": "agendamentos-web-87546.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:545818776746:android:45b1b7c53085afb0bcecd3",
+        "android_client_info": {
+          "package_name": "com.example.myapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5X4Cy8fnSwN3ciR9JcJZNX03RTitlnWQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
