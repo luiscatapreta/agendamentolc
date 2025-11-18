@@ -1,16 +1,14 @@
-# myapp
+# Agenda Web Flutter + Firebase
 
-A new Flutter project.
+Sistema de agendamento desenvolvido em **Flutter Web** com **Firebase**. Permite criar, editar, visualizar e deletar agendamentos de usuários com título, descrição, data e valor. Inclui tela administrativa para gerenciar todos os agendamentos.
 
-## Getting Started
+## Funcionalidades principais:
 
-This project is a starting point for a Flutter application.
+* Login e cadastro de usuários via Firebase Authentication
+* Criação e edição de agendamentos
+* Visualização agrupada por mês
+* Exclusão de agendamentos
+* Tela administrativa para todos os agendamentos
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Tecnologias:
+Flutter Web • Firebase Auth • Firestore • Intl
