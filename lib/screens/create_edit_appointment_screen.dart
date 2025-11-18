@@ -33,12 +33,15 @@ class _CreateEditAppointmentScreenState extends State<CreateEditAppointmentScree
   void saveAppointment() async {
     if (!_formKey.currentState!.validate() || selectedDate == null) return;
 
+    // Mantém apenas data (ano, mês, dia) sem hora
+    final onlyDate = DateTime(selectedDate!.year, selectedDate!.month, selectedDate!.day);
+
     final a = Appointment(
       id: widget.appointment?.id,
       userId: widget.userId,
       title: titleController.text,
       description: descController.text,
-      startAt: selectedDate!,
+      startAt: onlyDate,
       value: double.tryParse(valueController.text) ?? 0,
     );
 
@@ -55,7 +58,8 @@ class _CreateEditAppointmentScreenState extends State<CreateEditAppointmentScree
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text(widget.appointment == null ? 'Novo Agendamento' : 'Editar Agendamento')),
+        title: Text(widget.appointment == null ? 'Novo Agendamento' : 'Editar Agendamento'),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Form(
@@ -81,24 +85,20 @@ class _CreateEditAppointmentScreenState extends State<CreateEditAppointmentScree
               const SizedBox(height: 16),
               ListTile(
                 title: Text(selectedDate != null
-                    ? 'Data: ${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year} ${selectedDate!.hour}:${selectedDate!.minute}'
+                    ? 'Data: ${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}'
                     : 'Selecionar Data'),
                 trailing: const Icon(Icons.calendar_today),
                 onTap: () async {
                   final date = await showDatePicker(
-                      context: context,
-                      initialDate: selectedDate ?? DateTime.now(),
-                      firstDate: DateTime(2000),
-                      lastDate: DateTime(2100));
+                    context: context,
+                    initialDate: selectedDate ?? DateTime.now(),
+                    firstDate: DateTime(2000),
+                    lastDate: DateTime(2100),
+                  );
                   if (date != null) {
-                    final time = await showTimePicker(
-                        context: context, initialTime: TimeOfDay.fromDateTime(selectedDate!));
-                    if (time != null) {
-                      setState(() {
-                        selectedDate = DateTime(
-                            date.year, date.month, date.day, time.hour, time.minute);
-                      });
-                    }
+                    setState(() {
+                      selectedDate = DateTime(date.year, date.month, date.day);
+                    });
                   }
                 },
               ),
