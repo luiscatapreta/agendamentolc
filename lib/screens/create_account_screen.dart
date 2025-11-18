@@ -1,29 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'create_account_screen.dart'; // Tela para criar conta
-import 'reset_password_screen.dart'; // Tela para resetar senha
 import 'home_screen.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class CreateAccountScreen extends StatefulWidget {
+  const CreateAccountScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<CreateAccountScreen> createState() => _CreateAccountScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _CreateAccountScreenState extends State<CreateAccountScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
   bool isLoading = false;
 
-  void login() async {
+  void createAccount() async {
     if (!_formKey.currentState!.validate()) return;
+
+    if (passwordController.text.trim() != confirmPasswordController.text.trim()) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("As senhas não coincidem")),
+      );
+      return;
+    }
 
     setState(() => isLoading = true);
 
     try {
-      final userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+      final userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
       );
@@ -36,7 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
       }
     } on FirebaseAuthException catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(e.message ?? 'Erro ao fazer login')),
+        SnackBar(content: Text(e.message ?? 'Erro ao criar conta')),
       );
     } finally {
       setState(() => isLoading = false);
@@ -46,7 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Login")),
+      appBar: AppBar(title: const Text("Criar Conta")),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Form(
@@ -66,31 +72,19 @@ class _LoginScreenState extends State<LoginScreen> {
                 obscureText: true,
                 validator: (v) => v!.isEmpty ? 'Digite a senha' : null,
               ),
+              const SizedBox(height: 8),
+              TextFormField(
+                controller: confirmPasswordController,
+                decoration: const InputDecoration(labelText: 'Confirmar Senha'),
+                obscureText: true,
+                validator: (v) => v!.isEmpty ? 'Confirme a senha' : null,
+              ),
               const SizedBox(height: 16),
               ElevatedButton(
-                onPressed: isLoading ? null : login,
+                onPressed: isLoading ? null : createAccount,
                 child: isLoading
                     ? const CircularProgressIndicator(color: Colors.white)
-                    : const Text("Entrar"),
-              ),
-              const SizedBox(height: 8),
-              TextButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (_) => const CreateAccountScreen()),
-                  );
-                },
-                child: const Text("Criar conta"),
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (_) => const ResetPasswordScreen()),
-                  );
-                },
-                child: const Text("Esqueci a senha"),
+                    : const Text("Criar Conta"),
               ),
             ],
           ),
